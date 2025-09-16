@@ -1,0 +1,29 @@
+name: Build USCSandbox (Windows)
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x' # Adjust if your project uses a different version
+
+    - name: Restore dependencies
+      run: dotnet restore USCSandbox.sln
+
+    - name: Build
+      run: dotnet build USCSandbox.sln --configuration Release
+
+    - name: Test (optional)
+      run: dotnet test USCSandbox.sln
